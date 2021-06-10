@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_04_012100) do
+ActiveRecord::Schema.define(version: 2021_06_10_033541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "parts", force: :cascade do |t|
     t.bigint "song_id", null: false
-    t.string "inital"
+    t.string "initial"
     t.binary "recording"
     t.string "name"
     t.string "text"

@@ -1,5 +1,4 @@
 class Api::PartsController < ApplicationController
- 
   def index
     @parts = Part.all
     render json: @parts
@@ -12,6 +11,7 @@ class Api::PartsController < ApplicationController
 
   def create
     @part = Part.new(part_params)
+    @part.song_id = params[:song_id]
     if @part.save
       render json: @part
     else
@@ -31,6 +31,6 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.require(:part).permit(:title)
+    params.require(:part).permit(:name, :initial, :recording)
   end
 end
