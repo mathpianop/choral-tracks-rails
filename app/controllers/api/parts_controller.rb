@@ -6,12 +6,13 @@ class Api::PartsController < ApplicationController
 
   def show
     @part = Part.find(params[:id])
-    render json: @part.recording
+    render json: @part
   end
 
   def create
     @part = Part.new(part_params)
-    @part.song_id = params[:song_id]
+    result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
+    @part.recording = result["url"]
     if @part.save
       render json: @part
     else
@@ -31,6 +32,6 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.require(:part).permit(:recording, :name, :initial)
+    params.permit(:name, :initial, :recording, :song_id)
   end
 end
