@@ -6,7 +6,7 @@ class Api::PartsController < ApplicationController
 
   def show
     @part = Part.find(params[:id])
-    render json: @part
+    render json: @part.recording
   end
 
   def create
@@ -31,6 +31,6 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.require(:part).permit(:name, :initial, :recording)
+    params.require(:part).permit(:recording, :name, :initial)
   end
 end
