@@ -1,6 +1,6 @@
 class Api::PartsController < ApplicationController
   def index
-    @parts = Part.all
+    @parts = Part.where(song_id: part_params[:song_id])
     render json: @parts
   end
 
