@@ -1,6 +1,6 @@
 class Api::PartsController < ApplicationController
   def index
-    @parts = Part.where(song_id: part_params[:song_id])
+    @parts = Part.order(:pitch_order).where(song_id: part_params[:song_id])
     render json: @parts
   end
 
@@ -32,6 +32,6 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.permit(:name, :initial, :recording, :song_id)
+    params.permit(:name, :initial, :recording, :song_id,)
   end
 end
