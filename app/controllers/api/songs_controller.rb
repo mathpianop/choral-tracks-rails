@@ -1,8 +1,18 @@
 class Api::SongsController < ApplicationController
     # GET /songs
     def index
-      @songs = Song.all
+      # Filter out songs whose parts are not all uploaded
+      @songs = Song.where('parts_count = parts_promised')
       render json: @songs
+    end
+
+    # GET /admin-songs
+
+    def admin_index
+      @songs = Song.order(:id)
+      @parts = Part.order(:song_id).group_by {|part| part.song_id}
+      songs_and_parts = {songs: @songs, parts: @parts}
+      render json: songs_and_parts
     end
   
     # GET /song/:id
@@ -34,6 +44,6 @@ class Api::SongsController < ApplicationController
   
     private
     def song_params
-      params.require(:song).permit(:title)
+      params.permit(:title, :parts_promised)
     end
 end

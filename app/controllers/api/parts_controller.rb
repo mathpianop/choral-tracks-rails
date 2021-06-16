@@ -32,6 +32,6 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.permit(:name, :initial, :recording, :song_id,)
+    params.permit(:name, :initial, :recording, :song_id, :pitch_order)
   end
 end
