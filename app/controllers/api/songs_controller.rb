@@ -10,7 +10,7 @@ class Api::SongsController < ApplicationController
 
     def admin_index
       @songs = Song.order(:id)
-      @parts = Part.order(:song_id).group_by {|part| part.song_id}
+      @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
       songs_and_parts = {songs: @songs, parts: @parts}
       render json: songs_and_parts
     end
