@@ -23,19 +23,27 @@ class Api::PartsController < ApplicationController
   def update
     @part = Part.find(params[:id])
     update_params = part_params
-    update_params.except(:recording) if part_params[:recording] == "existing"
+    current_recording = @part.recording
+
+    if part_params[:recording] == "existing"
+      update_params.except(:recording)
+    else
+      result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
+      update_params.recording = result["url"]
+      #Delete the previous recording
+      Cloudinary::Uploader.destroy(current_recording, resource_type: :video)
+    end
     
     if @part.update(update_params)
       render json: @part
     else
       render error: { error: "Unable to update Part." }, status: 400
     end
-
-
   end
 
   def destroy
     @part = Part.find(params[:id])
+    Cloudinary::Uploader.destroy(@part.recording, resource_type: :video)
     if @part
       @part.destroy
       render json: { message: "Part succesfully deleted." }, status: 200
@@ -46,7 +54,7 @@ class Api::PartsController < ApplicationController
 
   private
   def part_params
-    params.permit(:name, :initial, :recording, :song_id, :pitch_order)
+    params.permit(:name, :initial, :recording, :song_id, :pitch_order, :id)
   end
 
 

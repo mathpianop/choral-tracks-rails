@@ -6,9 +6,9 @@ class Api::SongsController < ApplicationController
       render json: @songs
     end
 
-    # GET /admin-songs
+    # GET /admin
 
-    def admin_index
+    def admin
       @songs = Song.order(:id)
       @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
       songs_and_parts = {songs: @songs, parts: @parts}
@@ -46,6 +46,10 @@ class Api::SongsController < ApplicationController
     # DELETE /parts/:id
     def destroy
       @song = Song.find(params[:id])
+      # Delete all the recordings associated with the song from Cloudinary
+      @song.parts.each do |part|
+        Cloudinary::Uploader.destroy(part.recording, resource_type: :video)
+      end
       if @song.destroy
         render json: { message: "Song succesfully deleted." }, status: 200
       else
