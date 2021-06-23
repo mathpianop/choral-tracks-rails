@@ -20,6 +20,20 @@ class Api::PartsController < ApplicationController
     end
   end
 
+  def update
+    @part = Part.find(params[:id])
+    update_params = part_params
+    update_params.except(:recording) if part_params[:recording] == "existing"
+    
+    if @part.update(update_params)
+      render json: @part
+    else
+      render error: { error: "Unable to update Part." }, status: 400
+    end
+
+
+  end
+
   def destroy
     @part = Part.find(params[:id])
     if @part
@@ -34,4 +48,6 @@ class Api::PartsController < ApplicationController
   def part_params
     params.permit(:name, :initial, :recording, :song_id, :pitch_order)
   end
+
+
 end

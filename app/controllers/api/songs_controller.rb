@@ -27,15 +27,26 @@ class Api::SongsController < ApplicationController
       if @song.save
         render json: @song
       else
-        render error: { error: "Unable to create Song." }, status: 400
+        render error: { error: "Rats! Song Creation could not be completed" }, status: 400
+      end
+    end
+
+    # PATCH /songs
+    # PUT /songs
+
+    def update
+      @song = Song.find(params[:id]);
+      if @song.update(song_params)
+        render json: @song
+      else
+        render error: { error: "Unable to update Song." }, status: 400
       end
     end
   
     # DELETE /parts/:id
     def destroy
       @song = Song.find(params[:id])
-      if @song
-        @song.destroy
+      if @song.destroy
         render json: { message: "Song succesfully deleted." }, status: 200
       else
         render json: { message: "Unable to delete Song." }, status: 400
