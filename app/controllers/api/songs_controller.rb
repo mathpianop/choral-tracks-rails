@@ -45,20 +45,24 @@ class Api::SongsController < ApplicationController
   
     # DELETE /parts/:id
     def destroy
-      @song = Song.find(params[:id])
-      # Delete all the recordings associated with the song from Cloudinary
-      @song.parts.each do |part|
-        Cloudinary::Uploader.destroy(part.recording, resource_type: :video)
-      end
+      @song = Song.includes(:parts).find(params[:id])
+      song_parts_public_ids = @song.parts.pluck(:public_id)
+      p song_parts_public_ids
+
       if @song.destroy
         render json: { message: "Song succesfully deleted." }, status: 200
       else
         render json: { message: "Unable to delete Song." }, status: 400
       end
+
+      # Delete all the recordings associated with the song from Cloudinary
+      song_parts_public_ids.each do |public_id|
+        result = Cloudinary::Uploader.destroy(public_id, resource_type: :video)
+      end
     end
   
     private
     def song_params
-      params.permit(:title, :parts_promised)
+      params.permit(:title, :parts_promised, :id)
     end
 end

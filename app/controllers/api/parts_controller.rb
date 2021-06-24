@@ -12,7 +12,8 @@ class Api::PartsController < ApplicationController
   def create
     @part = Part.new(part_params)
     result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
-    @part.recording = result["url"]
+    @part.recording = result["secure_url"]
+    @part.public_id = result["public_id"]
     if @part.save
       render json: @part
     else
@@ -23,15 +24,18 @@ class Api::PartsController < ApplicationController
   def update
     @part = Part.find(params[:id])
     update_params = part_params
-    current_recording = @part.recording
+    current_public_id = @part.public_id
 
     if part_params[:recording] == "existing"
       update_params.except(:recording)
     else
       result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
-      update_params.recording = result["url"]
+      update_params.merge({
+        recording: result["secure_url"],
+        public_id: result["public_id"]
+      })
       #Delete the previous recording
-      Cloudinary::Uploader.destroy(current_recording, resource_type: :video)
+      Cloudinary::Uploader.destroy(current_public_id, resource_type: :video)
     end
     
     if @part.update(update_params)
@@ -43,13 +47,14 @@ class Api::PartsController < ApplicationController
 
   def destroy
     @part = Part.find(params[:id])
-    Cloudinary::Uploader.destroy(@part.recording, resource_type: :video)
-    if @part
-      @part.destroy
+    if @part.destroy
       render json: { message: "Part succesfully deleted." }, status: 200
     else
       render json: { message: "Unable to delete Part." }, status: 400
     end
+
+    result = Cloudinary::Uploader.destroy(@part.public_id, resource_type: :video)
+    p result
   end
 
   private
