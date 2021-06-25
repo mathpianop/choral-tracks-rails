@@ -11,8 +11,7 @@ class Api::SongsController < ApplicationController
     def admin
       @songs = Song.order(:id)
       @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
-      songs_and_parts = {songs: @songs, parts: @parts}
-      render json: songs_and_parts
+      render json: {songs: @songs, parts: @parts}
     end
   
     # GET /song/:id
