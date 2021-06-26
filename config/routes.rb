@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     get "admin", to: "songs#admin_index"
     post "login", to: "admins#login"
     resources :songs, except: [:new, :edit] do 
-      resources :parts, escept: [:new, :edit]
+      resources :parts, except: [:new, :edit]
     end
   end
 end

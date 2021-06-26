@@ -24,7 +24,7 @@ class Api::SongsController < ApplicationController
     # POST /songs
     def create
       @song = Song.new(song_params)
-      if @song.create(song_params)
+      if @song.save
         render json: @song
       else
         render error: { error: "Rats! Song Creation could not be completed" }, status: 400
