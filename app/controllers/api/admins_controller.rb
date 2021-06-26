@@ -1,5 +1,5 @@
 class Api::AdminsController < ApplicationController
-  before_action :authorized, only: [:auto_login]
+  before_action :authorized
 
   # LOGGING IN
   def login
@@ -7,13 +7,9 @@ class Api::AdminsController < ApplicationController
 
     if @admin && @admin.authenticate(params[:password])
       token = encode_token({admin_id: @admin.id})
-      render json: {admin: @admin, token: token}
+      render json: {admin: @admin, token: token, status: 200}
     else
       render json: {error: "Invalid username or password"}
     end
-  end
-
-  def auto_login
-    render json: @admin
   end
 end

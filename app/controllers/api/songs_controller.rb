@@ -1,5 +1,5 @@
 class Api::SongsController < ApplicationController
-  before_action :authorized, only: [:admin_index, :create, :update, :destroy]
+  before_action :authorized, except: [:index, :show]
     # GET /songs
     def index
       # Filter out songs whose parts are not all uploaded
@@ -24,15 +24,14 @@ class Api::SongsController < ApplicationController
     # POST /songs
     def create
       @song = Song.new(song_params)
-      if @song.save
+      if @song.create(song_params)
         render json: @song
       else
         render error: { error: "Rats! Song Creation could not be completed" }, status: 400
       end
     end
 
-    # PATCH /songs
-    # PUT /songs
+    # PATCH /songs/:id
 
     def update
       @song = Song.find(params[:id]);
@@ -43,11 +42,11 @@ class Api::SongsController < ApplicationController
       end
     end
   
-    # DELETE /parts/:id
+    # DELETE /songs/:id
     def destroy
       @song = Song.includes(:parts).find(params[:id])
+      #Store the public ids of the Songs Parts before destroying Song
       song_parts_public_ids = @song.parts.pluck(:public_id)
-      p song_parts_public_ids
 
       if @song.destroy
         render json: { message: "Song succesfully deleted." }, status: 200
@@ -56,13 +55,17 @@ class Api::SongsController < ApplicationController
       end
 
       # Delete all the recordings associated with the song from Cloudinary
-      song_parts_public_ids.each do |public_id|
-        result = Cloudinary::Uploader.destroy(public_id, resource_type: :video)
-      end
+      delete_song_parts(song_parts_public_ids)
     end
   
     private
     def song_params
       params.permit(:title, :parts_promised, :id)
+    end
+
+    def delete_song_parts(song_parts_public_ids)
+      song_parts_public_ids.each do |public_id|
+        Cloudinary::Uploader.destroy(public_id, resource_type: :video)
+      end
     end
 end

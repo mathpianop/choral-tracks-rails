@@ -1,5 +1,5 @@
 class Api::PartsController < ApplicationController
-  before_action :authorized, only: [:create, :update, :destroy]
+  before_action :authorized, except: [:index, :show]
   def index
     @parts = Part.order(:pitch_order).where(song_id: part_params[:song_id])
     render json: @parts
@@ -11,10 +11,11 @@ class Api::PartsController < ApplicationController
   end
 
   def create
-    @part = Part.new(part_params)
-    result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
-    @part.recording = result["secure_url"]
-    @part.public_id = result["public_id"]
+    #Upload recording and add resulting info to params
+    upload_result = upload_recording(params[:recording])
+    modified_params = add_result_to_params(upload_result, part_params)
+    @part = Part.new(modified_params)
+
     if @part.save
       render json: @part
     else
@@ -24,23 +25,16 @@ class Api::PartsController < ApplicationController
 
   def update
     @part = Part.find(params[:id])
-    update_params = part_params
     current_public_id = @part.public_id
-    update_params.except(:recording)
-
-    if part_params[:recording] == "existing"
-      # If there is not a new recording, remove the :recording key from the params
-      update_params = part_params.except(:recording)
-    else
+    #Return part_params without the :recording key
+    update_params = part_params.except(:recording)
+    unless part_params[:recording] == "existing"
       #If the recording is being overriden, upload the file and replace
       #it with the new url
-      result = Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
-      update_params = part_params.except(:recording).merge({
-        recording: result["secure_url"],
-        public_id: result["public_id"]
-      })
-      #Delete the previous recording
-      Cloudinary::Uploader.destroy(current_public_id, resource_type: :video)
+      upload_result = upload_recording(params[:recording])
+      modified_params = add_result_to_params(upload_result, update_params)
+      #Delete the previous Cloudinary recording file
+      delete_uploaded_recording(current_public_id)
     end
     
     if @part.update(update_params)
@@ -57,10 +51,26 @@ class Api::PartsController < ApplicationController
     else
       render json: { message: "Unable to delete Part." }, status: 400
     end
-    result = Cloudinary::Uploader.destroy(@part.public_id, resource_type: :video)
+    #Delete corresponding Cloudinary file
+    delete_uploaded_recording(@part.public_id)
   end
 
   private
+  def upload_recording(recording)
+    Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
+  end
+
+  def delete_uploaded_recording(public_id)
+    Cloudinary::Uploader.destroy(public_id, resource_type: :video)
+  end
+
+  def add_result_to_params(upload_result, input_params)
+    input_params.merge({
+      recording: upload_result["secure_url"],
+      public_id: upload_result["public_id"]
+    })
+  end
+
   def part_params
     params.permit(:name, :initial, :recording, :song_id, :pitch_order, :id)
   end
