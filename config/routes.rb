@@ -3,9 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     get "admin", to: "songs#admin_index"
     post "login", to: "admins#login"
-    get "/auto_login", to: "admins#auto_login"
-    resources :songs, only: [:index, :create, :show, :update, :destroy] do 
-      resources :parts, only: [:index, :create, :show, :update, :destroy]
+    resources :songs, except: [:new, :edit] do 
+      resources :parts, escept: [:new, :edit]
     end
   end
 end
