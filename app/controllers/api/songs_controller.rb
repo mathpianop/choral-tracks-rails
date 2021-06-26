@@ -1,4 +1,5 @@
 class Api::SongsController < ApplicationController
+  before_action :authorized, only: [:admin_index, :create, :update, :destroy]
     # GET /songs
     def index
       # Filter out songs whose parts are not all uploaded
@@ -8,7 +9,7 @@ class Api::SongsController < ApplicationController
 
     # GET /admin
 
-    def admin
+    def admin_index
       @songs = Song.order(:id)
       @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
       render json: {songs: @songs, parts: @parts}

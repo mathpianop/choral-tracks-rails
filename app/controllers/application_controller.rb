@@ -1,8 +1,13 @@
 class ApplicationController < ActionController::API
-  before_action :authorized
+  
 
   def encode_token(payload)
     JWT.encode(payload, ENV['JWT_SECRET'])
+  end
+
+  def auth_header
+    # { Authorization: 'Bearer <token>' }
+    request.headers['Authorization']
   end
 
   def decoded_token
@@ -17,7 +22,7 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def logged_in_user
+  def logged_in_admin
     if decoded_token
       admin_id = decoded_token[0]['admin_id']
       @admin = Admin.find_by(id: admin_id)
@@ -25,7 +30,7 @@ class ApplicationController < ActionController::API
   end
 
   def logged_in?
-    !!logged_in_user
+    !!logged_in_admin
   end
 
   def authorized
