@@ -1,6 +1,6 @@
 # Choral Tracks: Rails
 
-This is the Rails back end for my React Choral Tracks app (https://github.com/mathpianop/choral-tracks-react). It uses a JSON API to communicate with the front end and JSON Web Tokens for authentication.
+This is the Rails backend for my React Choral Tracks app (https://github.com/mathpianop/choral-tracks-react). It uses a JSON API to communicate with the front end and JSON Web Tokens for authentication.
 
 The database primarily exists to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
 
