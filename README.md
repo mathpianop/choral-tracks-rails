@@ -15,14 +15,16 @@ bundle install
 ```
 <br>
 <br>
-* First, create and migrate the database:
+
+First, create and migrate the database:
+
 ```bash
 rails db:create && rails db:migrate
 ```
 <br>
 <br>
 
-* Start up the Rails console and generate a JWT base64 secret key:
+Start up the Rails console with `rails c` and generate a JWT base64 secret key:
 
 ```bash
 rails console
@@ -35,7 +37,7 @@ irb(main):001:0> SecureRandom.base64(32).first(32)
 <br>
 <br>
 
-* Create a `.env` file in the root of the directory and place your JWT secret, like so:
+Create a `.env` file in the root of the directory and place your JWT secret, like so:
 
 ```bash
 JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
@@ -43,11 +45,11 @@ JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
 <br>
 <br>
 
-* Finally, seed the database with sample Songs and Parts, and sample Admin credentials
+Finally, seed the database with sample Songs and Parts, and sample Admin credentials:
 ```bash
 rails db:seed
 ```
 <br>
 <br>
 
-To get things started with the front end, fire up the rails server with `rails server`
+To get things started with the front end, fire up the rails server with `rails s`
