@@ -26,10 +26,6 @@ rails db:create && rails db:migrate
 
 Start up the Rails console with `rails c` and generate a JWT base64 secret key:
 
-```bash
-rails console
-```
-
 ```ruby
 irb(main):001:0> SecureRandom.base64(32).first(32)
 => "z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS"
