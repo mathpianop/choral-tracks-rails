@@ -13,12 +13,14 @@ git clone git@github.com:mathpianop/choral-tracks-rails.git
 cd choral-tracks
 bundle install
 ```
-
+<br>
+<br>
 * First, create and migrate the database:
 ```bash
 rails db:create && rails db:migrate
 ```
-
+<br>
+<br>
 
 * Start up the Rails console and generate a JWT base64 secret key:
 
@@ -30,19 +32,22 @@ rails console
 irb(main):001:0> SecureRandom.base64(32).first(32)
 => "z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS"
 ```
-
+<br>
+<br>
 
 * Create a `.env` file in the root of the directory and place your JWT secret, like so:
 
 ```bash
 JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
 ```
-
+<br>
+<br>
 
 * Finally, seed the database with sample Songs and Parts, and sample Admin credentials
 ```bash
 rails db:seed
 ```
-
+<br>
+<br>
 
 To get things started with the front end, fire up the rails server with `rails server`
