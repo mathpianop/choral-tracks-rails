@@ -4,7 +4,4 @@ Cloudinary.config do |config|
   config.api_secret = ENV['CLOUD_API_SECRET']
   config.secure = true
   config.cdn_subdomain = true
-  p config.cloud_name
-  p config.api_key
-  p config.api_secret
  end

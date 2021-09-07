@@ -1,24 +1,44 @@
-# README
+# Choral Tracks: Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the Rails back end for my React Choral Tracks app (https://github.com/mathpianop/choral-tracks-react). It uses a JSON API to communicate with the front end and JSON Web Tokens for authentication.
 
-Things you may want to cover:
+The database primarily to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
 
-* Ruby version
+## Installation and JWT setup
 
-* System dependencies
+* Clone the repository and install the necessary gems.
 
-* Configuration
+```bash
+git clone git@github.com:mathpianop/choral-tracks-rails.git
+cd choral-tracks
+bundle install
+```
 
-* Database creation
+* Create and migrate the database.
+```bash
+rails db:create && rails db:migrate
+```
 
-* Database initialization
+* Start up the Rails console and generate a JWT base64 secret key.
 
-* How to run the test suite
+```bash
+rails console
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+```ruby
+irb(main):001:0> SecureRandom.base64(32).first(32)
+=> "z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS"
+```
 
-* Deployment instructions
+* Create a `.env` file in the root of the directory and place your JWT secret, like so:
 
-* ...
+```bash
+JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
+```
+
+* Finally, seed the database with sample Songs and Parts, and sample Admin credentials
+```bash
+rails db:seed
+```
+
+To get things started with the front end, fire up the rails server with `rails server`
