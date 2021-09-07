@@ -2,7 +2,7 @@
 
 This is the Rails back end for my React Choral Tracks app (https://github.com/mathpianop/choral-tracks-react). It uses a JSON API to communicate with the front end and JSON Web Tokens for authentication.
 
-The database primarily to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
+The database primarily exists to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
 
 ## Installation and JWT setup
 
@@ -14,12 +14,13 @@ cd choral-tracks
 bundle install
 ```
 
-* Create and migrate the database.
+* First, create and migrate the database:
 ```bash
 rails db:create && rails db:migrate
 ```
 
-* Start up the Rails console and generate a JWT base64 secret key.
+
+* Start up the Rails console and generate a JWT base64 secret key:
 
 ```bash
 rails console
@@ -30,15 +31,18 @@ irb(main):001:0> SecureRandom.base64(32).first(32)
 => "z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS"
 ```
 
+
 * Create a `.env` file in the root of the directory and place your JWT secret, like so:
 
 ```bash
 JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
 ```
 
+
 * Finally, seed the database with sample Songs and Parts, and sample Admin credentials
 ```bash
 rails db:seed
 ```
+
 
 To get things started with the front end, fire up the rails server with `rails server`
