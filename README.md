@@ -6,7 +6,7 @@ The database primarily exists to stores URLs for assets associated with the Song
 
 ## Installation and JWT setup
 
-* Clone the repository and install the necessary gems.
+First, clone the repository and install the necessary gems.
 
 ```bash
 git clone git@github.com:mathpianop/choral-tracks-rails.git
@@ -16,7 +16,7 @@ bundle install
 <br>
 <br>
 
-First, create and migrate the database:
+Then, create and migrate the database:
 
 ```bash
 rails db:create && rails db:migrate
