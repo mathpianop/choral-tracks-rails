@@ -10,7 +10,7 @@ First, clone the repository and install the necessary gems.
 
 ```bash
 git clone git@github.com:mathpianop/choral-tracks-rails.git
-cd choral-tracks
+cd choral-tracks-rails
 bundle install
 ```
 <br>
