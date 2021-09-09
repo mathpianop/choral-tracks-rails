@@ -24,19 +24,10 @@ rails db:create && rails db:migrate
 <br>
 <br>
 
-Start up the Rails console with `rails c` and generate a JWT base64 secret key:
-
-```ruby
-irb(main):001:0> SecureRandom.base64(32).first(32)
-=> "z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS"
-```
-<br>
-<br>
-
-Create a `.env` file in the root of the directory and place your JWT secret, like so:
+Generate and set a JWT secret key with the following bash script:
 
 ```bash
-JWT_SECRET=z2V0B0MTy+dvUYuy2qaX495tVj0v8zmS
+bash create-secret.sh
 ```
 <br>
 <br>
