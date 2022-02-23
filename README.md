@@ -4,6 +4,63 @@ This is the Rails backend for my React Choral Tracks app (https://github.com/mat
 
 The database primarily exists to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
 
+## API reference
+
+### Choir
+
+Represents all the info and songs for a given choir
+
+- choir_details: `object`
+ 	- name: `string`
+  	- message: `string`
+  	
+    
+- songs: `Song array`
+
+
+##### Endpoints
+
+`GET` "https://choral-tracks.herokuapp.com/api/choir/**:choir_id**"
+
+Retrieves a single choir
+
+###### Response Example
+
+
+```json
+{
+   "choir_details" : {
+      "name" : "Holy Transfiguration Choir",
+      "updated_at" : "2022-02-23T20:45:32.206Z",
+      "id" : 1,
+      "message" : "Welcome to the HT choral resources! Hopefully, there will be a lot more to come, but for right n\now, check out the song player below. If you click on one of the titles, you can play the song with options to hear your part by itself (\"isolate\"), or with the other parts softer (\"emphasize\")",
+      "created_at" : "2022-02-23T20:10:09.185Z"
+   },
+   "songs" : [
+      {
+         "updated_at" : "2022-02-23T20:30:58.319Z",
+         "choir_id" : 1,
+         "id" : 2,
+         "parts_count" : 4,
+         "title" : "Ascension Megalonarion",
+         "parts_promised" : 4,
+         "created_at" : "2021-09-09T01:12:51.788Z"
+      },
+      {
+         "title" : "It Is Truly Meet",
+         "parts_count" : 3,
+         "created_at" : "2021-09-09T01:12:51.805Z",
+         "parts_promised" : 3,
+         "updated_at" : "2022-02-23T20:30:58.326Z",
+         "id" : 3,
+         "choir_id" : 1
+      }
+   ]
+}
+
+
+```
+
 ## Installation and JavaScript Web Tokens setup
 
 First, clone the repository and install the necessary gems.

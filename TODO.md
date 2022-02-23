@@ -22,3 +22,4 @@ Todo:
 2. Add create action to admin
 3. Add categories configure relevant associations
 4. Add autocomplete search service
+5. Update README with API calls!!!

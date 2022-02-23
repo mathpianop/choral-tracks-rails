@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_23_032932) do
+ActiveRecord::Schema.define(version: 2022_02_23_201056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2022_02_23_032932) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "parts_promised"
     t.integer "parts_count"
+    t.integer "choir_id"
   end
 
   add_foreign_key "parts", "songs"

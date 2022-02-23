@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'choirs/index'
-  get 'choirs/show'
-  get 'choirs/create'
-  get 'choirs/update'
+  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :api do
     get "admin", to: "songs#admin_index"
@@ -10,5 +7,6 @@ Rails.application.routes.draw do
     resources :songs, except: [:new, :edit] do 
       resources :parts, except: [:new, :edit]
     end
+    resources :choirs, only: [:show, :create, :update]
   end
 end
