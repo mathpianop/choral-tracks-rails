@@ -4,18 +4,26 @@ This is the Rails backend for my React Choral Tracks app (https://github.com/mat
 
 The database primarily exists to stores URLs for assets associated with the Songs, such audio part recordings and (eventually) sheet music. The assets are uploaded to the cloud storage service Cloudinary.
 
+## Table of Contents
+
+* [API reference](#api-reference)
+	- [Choir](#choir)
+	- [Song](#choir)
+* [Installation and JWT setup](#installation-and-javaScript-web-tokens-setup)
+
+
 ## API reference
 
 ### Choir
 
 Represents all the info and songs for a given choir
 
-- choir_details: `object`
- 	- name: `string`
-  	- message: `string`
+* choir_details: `object`
+ 	* name: `string`
+  	* message: `string`
   	
     
-- songs: `Song array`
+* songs: [Song](#song) `array`
 
 
 ##### Endpoints
@@ -60,6 +68,16 @@ Retrieves a single choir
 
 
 ```
+
+### Song
+
+Represents the info and parts of a given song
+
+* "choir_id" `integer` (The id of the choir associated with the song)
+* "id" `integer`
+* "parts_count" `integer` (The number of parts with uploaded recordings)
+* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "title" `string`
 
 ## Installation and JavaScript Web Tokens setup
 
