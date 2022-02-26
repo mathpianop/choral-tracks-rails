@@ -20,7 +20,7 @@ Represents all the info and songs for a given choir
 
 * choir_details: `object`
  	* name: `string`
-  	* message: `string`
+  * message: `string`
   	
     
 * songs: [Song](#song) `array`
@@ -28,7 +28,7 @@ Represents all the info and songs for a given choir
 
 ##### Endpoints
 
-`GET` "https://choral-tracks.herokuapp.com/api/choir/**:choir_id**"
+`GET` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**"
 
 Retrieves a single choir
 
