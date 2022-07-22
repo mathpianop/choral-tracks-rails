@@ -1,5 +1,5 @@
 class Api::PartsController < ApplicationController
-  before_action :authorized, except: [:index, :show]
+  before_action :authorized_for_choir, except: [:index, :show]
   
   def index
     @parts = Part.order(:pitch_order).where(song_id: part_params[:song_id])

@@ -1,5 +1,5 @@
 class Api::SongsController < ApplicationController
-  before_action :authorized, except: [:index, :show]
+  before_action :authorized_for_choir, except: [:index, :show]
     # GET /songs
     def index
       # Filter out songs whose parts are not all uploaded

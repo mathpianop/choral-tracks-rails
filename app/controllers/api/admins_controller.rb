@@ -9,4 +9,7 @@ class Api::AdminsController < ApplicationController
       render json: {error: "Invalid username or password", status: 401}
     end
   end
+
 end
+
+
