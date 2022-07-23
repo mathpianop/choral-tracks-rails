@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_21_235527) do
+ActiveRecord::Schema.define(version: 2022_07_23_010458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 2022_07_21_235527) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "choir_id"
   end
 
   create_table "choirs", force: :cascade do |t|
@@ -28,6 +27,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_235527) do
     t.text "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "admin_id"
   end
 
   create_table "parts", force: :cascade do |t|

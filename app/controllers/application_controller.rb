@@ -47,7 +47,7 @@ class ApplicationController < ActionController::API
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !choir_belongs_to_admin?(admin, params[:choir_id])
-      render json: { message: 'You do not have admin access to this choir' }, status: :unauthorized
+      render json: { message: 'You do not have admin access to this choir or this choir does not exist' }, status: :unauthorized
     end
   end
 end

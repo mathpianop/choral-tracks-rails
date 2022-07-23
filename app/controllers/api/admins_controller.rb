@@ -10,6 +10,15 @@ class Api::AdminsController < ApplicationController
     end
   end
 
+  # Returns admin page data
+  def show
+    @songs = Song.order(:id)
+    @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
+    render json: {songs: @songs, parts: @parts}
+  end
+
+
+
 end
 
 

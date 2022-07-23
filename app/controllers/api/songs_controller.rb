@@ -7,13 +7,6 @@ class Api::SongsController < ApplicationController
       render json: @songs
     end
 
-    # GET /admin
-
-    def admin_index
-      @songs = Song.order(:id)
-      @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
-      render json: {songs: @songs, parts: @parts}
-    end
   
     # GET /song/:id
     def show

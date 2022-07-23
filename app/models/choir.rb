@@ -1,4 +1,4 @@
 class Choir < ApplicationRecord
   has_many :songs
-  has_one :admin
+  belonds_to :admin
 end
