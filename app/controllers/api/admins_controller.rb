@@ -12,9 +12,24 @@ class Api::AdminsController < ApplicationController
 
   # Returns admin page data
   def show
-    @songs = Song.order(:id)
-    @parts = Part.order(:pitch_order).group_by {|part| part.song_id}
-    render json: {songs: @songs, parts: @parts}
+    @admin = Admin.find(params[:id]);
+    @choirs = Choir.where(admin_id: params[:id])
+    render json: {admin: @admin, choirs: @choirs}
+  end
+
+  def update
+    @admin = Admin.find(params[:id]);
+    if @admin.update(admin_params)
+      render json: @admin
+    else
+      render error: { error: "Unable to update Admin." }, status: 400
+    end
+  end
+
+  private
+
+  def admin_params
+    params.permit(:name)
   end
 
 

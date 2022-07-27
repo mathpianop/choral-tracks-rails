@@ -8,7 +8,7 @@ The database primarily exists to stores URLs for assets associated with the Song
 
 * [API reference](#api-reference)
 	- [Choir](#choir)
-	- [Song](#choir)
+	- [Song](#song)
 * [Installation and JWT setup](#installation-and-javaScript-web-tokens-setup)
 
 
