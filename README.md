@@ -7,32 +7,52 @@ The database primarily exists to stores URLs for assets associated with the Song
 ## Table of Contents
 
 * [API reference](#api-reference)
-	- [Choir](#choir)
-	- [Song](#song)
+	- [Admin](#Admin)
+   - [Choir](#Choir)
+	- [Song](#Song)
+   - [Part](#Part)
 * [Installation and JWT setup](#installation-and-javaScript-web-tokens-setup)
 
 
 ## API reference
+
+### Admin
+
+Represents the info and choirs associated with an admin account. Each admin can administrate multiple choirs
+
+* admin_details: `object`
+   * username: `string`
+
+* choirs: [Choir](#choir) `array`
+
+##### Endpoints
+
+`GET` "https://choral-tracks.herokuapp.com/api/admins/**:admin_id**"
+
+Retrieves a single admin
+
+
+`PATCH` / `PUT` "https://choral-tracks.herokuapp.com/api/admins"
+
+Updates a single admin
+
+Requires the following params:
+
+* username: `string`
+
 
 ### Choir
 
 Represents all the info and songs for a given choir
 
 * choir_details: `object`
- 	* name: `string`
+  * name: `string`
   * message: `string`
   	
     
 * songs: [Song](#song) `array`
 
-
-##### Endpoints
-
-`GET` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**"
-
-Retrieves a single choir
-
-###### Response Example
+##### Response Example
 
 
 ```json
@@ -66,18 +86,140 @@ Retrieves a single choir
    ]
 }
 
-
 ```
+
+
+##### Endpoints
+
+`GET` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**"
+
+Retrieves a single choir, with only the songs that have all the parts uploaded
+
+
+`GET` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**/edit" 
+
+Retrieves a single choir, including those songs that do not have all their parts uploaded
+
+
 
 ### Song
 
-Represents the info and parts of a given song
+Represents the info and number of parts of a given song
 
 * "choir_id" `integer` (The id of the choir associated with the song)
 * "id" `integer`
 * "parts_count" `integer` (The number of parts with uploaded recordings)
 * "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
 * "title" `string`
+
+
+##### Endpoints
+
+`GET` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
+
+Retrieves a single song
+
+
+`POST` "https://choral-tracks.herokuapp.com/api/songs/"
+
+Creates a song (no parts)
+
+Requires the following params:
+
+* "choir_id" `integer` (The id of the choir associated with the song)
+* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "title" `string`
+
+
+
+`PATCH` / `PUT` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
+
+Updates the song with the given id (does not directly affect associated parts)
+
+Requires the following params:
+
+* "id" `integer` (The id of the song)
+* "choir_id" `integer` (The id of the choir associated with the song)
+* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "title" `string`
+
+`DELETE` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
+
+Deletes the song with the given id
+
+
+### Part
+
+Represents a choral part (e.g. Soprano) belonging to a particular song. Has an audio file associated with it that gets uploaded to Cloudinary
+
+* "id" `integer` (The id of the part)
+* "song_id" `integer` (The id of the song associated with the part)
+* "name" `string` (The name of the part; e.g. Soprano)
+* "initial" `string` (The initial of the part, e.g. "S" for Soprano)
+* "pitch_order" `integer` (The pitch order of the part compared to other parts in the song, from high to low. For example, Alto might have a pitch order of 2)
+* "recording_url" `string` (The full Cloudinary URL of the uploaded audio file)
+* "public_id" `string` (The string that uniquely identifies the file at Cloudinary, and is the final slug of the URL before the file extension)
+
+##### Response Example
+
+```json
+{
+   "id": 9,
+   "song_id": 4,
+   "initial": "A",
+   "recording": "https://res.cloudinary.com/choral-tracks/video/upload/v1624987143/wjgnnivpehyrubrc5zzn.mp3",
+   "name": "Alto",
+   "created_at": "2021-09-09T01:12:51.982Z",
+   "updated_at": "2021-09-09T01:12:51.982Z",
+   "pitch_order": 2,
+   "public_id": "wjgnnivpehyrubrc5zzn"
+}
+```
+
+##### Endpoints
+
+`GET` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts"
+
+Retrieves all the parts corresponding to the given song
+
+
+`GET` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts/**:part_id**"
+
+Retrieves a single part corresponding to the given song
+
+
+`POST` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts"
+
+Creates a new part corresponding to the given song, uploading the audio file to Cloudinary
+
+Requires the following params:
+
+* "song_id" `integer` (The id of the song associated with the part)
+* "name" `string` (The name of the part; e.g. Soprano)
+* "initial" `string` (The initial of the part, e.g. "S" for Soprano)
+* "pitch_order" `integer` (The pitch order of the part compared to other parts in the song, from high to low. For example, Alto might have a pitch order of 2)
+* "recording" `audio file` (The audio file recording of the part)
+
+
+`PATCH`/ `PUT` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts/**:part_id**"
+
+Updates the given part corresponding to the given song, uploading a new audio file to Cloudinary if provided
+
+Requires the following params:
+
+* "song_id" `integer` (The id of the song associated with the part)
+* "name" `string` (The name of the part; e.g. Soprano)
+* "initial" `string` (The initial of the part, e.g. "S" for Soprano)
+* "pitch_order" `integer` (The pitch order of the part compared to other parts in the song, from high to low. For example, Alto might have a pitch order of 2)
+* "recording" `audio file` (The audio file recording of the part)
+
+
+`DELETE` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts/**:part_id**"
+
+Deletes the given part corresponding to the given song, destroying the Cloudinary audio file
+
+
+
 
 ## Installation and JavaScript Web Tokens setup
 

@@ -53,7 +53,7 @@ class Api::SongsController < ApplicationController
   
     private
     def song_params
-      params.permit(:title, :parts_promised, :id)
+      params.permit(:title, :parts_promised, :id, :choir_id)
     end
 
     def delete_song_parts(song_parts_public_ids)
