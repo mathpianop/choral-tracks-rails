@@ -1,11 +1,5 @@
 class Api::SongsController < ApplicationController
-  before_action :authorized_for_choir, except: [:index, :show]
-    # GET /songs
-    def index
-      # Filter out songs whose parts are not all uploaded
-      @songs = Song.where('parts_count = parts_promised')
-      render json: @songs
-    end
+  before_action :authorized_for_choir, except: [:show]
 
   
     # GET /song/:id

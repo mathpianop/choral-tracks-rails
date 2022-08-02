@@ -13,8 +13,12 @@ class Api::AdminsController < ApplicationController
   # Returns admin page data
   def show
     @admin = Admin.find(params[:id]);
-    @choirs = Choir.where(admin_id: params[:id])
-    render json: {admin: @admin, choirs: @choirs}
+    @choirs = Choir.includes(:songs).where(admin_id: params[:id])
+    @songs = Song.where(choir_id: @choirs.map {|choir| choir.id})
+    # For each choir, create a parent hash that has choir_details 
+    # (the actual choir record) and songs.
+    choirs_and_songs = @choirs.map {|choir| {choir_details: choir, songs: choir.songs}}
+    render json: {admin: @admin, choirs: choirs_and_songs}
   end
 
   def update
