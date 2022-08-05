@@ -30,11 +30,12 @@ Represents the info and choirs associated with an admin account. Each admin can 
 `GET` "https://choral-tracks.herokuapp.com/api/admins/**:admin_id**"
 
 Retrieves a single admin
-
+- Requires a JWT Auth Token obtained at "api/admins/login"
 
 `PATCH` / `PUT` "https://choral-tracks.herokuapp.com/api/admins"
 
 Updates a single admin
+- Requires a JWT Auth Token obtained at "api/admins/login"
 
 Requires the following params:
 
@@ -98,8 +99,8 @@ Retrieves a single choir, with only the songs that have all the parts uploaded
 
 `GET` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**/edit" 
 
-Retrieves a single choir, including those songs that do not have all their parts uploaded
-
+Retrieves a single choir, including those songs that do not have all their parts uploaded. 
+- Requires a JWT Auth Token obtained at "api/admins/login"
 
 
 ### Song

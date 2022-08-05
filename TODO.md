@@ -13,12 +13,12 @@ Category
 Song
 -belongs to category
 
-nested route choirs do admins
-
 
 Todo:
 
-- Test login and auth
+- Test API!
+- Add Admins#login to Docs
+- In production, give choir record an admin_id
 
 1. Add create/update action to admin and choir
 2. Add categories configure relevant associations

@@ -1,4 +1,5 @@
 class Api::AdminsController < ApplicationController
+  before_action :authorized_for_admin, except: [:login]
   # LOGGING IN
   def login
     @admin = Admin.find_by(username: params[:username])

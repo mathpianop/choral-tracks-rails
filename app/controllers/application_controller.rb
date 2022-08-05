@@ -32,21 +32,40 @@ class ApplicationController < ActionController::API
     !!logged_in_admin
   end
 
-  def choir_belongs_to_admin?(admin, choir_id)
-    Choir.exists?(admin_id: admin.id, choir_id: choir_id)
+  def choir_id
+    params[:choir_id] || params[:id]
   end
 
- # Currently unused, default method
+  def choir_belongs_to_admin?(admin)
+    Choir.exists?(admin_id: admin.id, id: choir_id)
+  end
+
+  def record_belongs_to_admin?(admin)
+    admin.id == params[:id].to_i
+  end
+  
+
+ # default method
  # Use as template for other auth situations other than auth for choir
   def authorized
     render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
 
-  def authorized_for_choir
+  def authorized_for_admin
     admin = logged_in_admin
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
-    elsif !choir_belongs_to_admin?(admin, params[:choir_id])
+    elsif !record_belongs_to_admin?(admin)
+      render json: { message: 'You do not have access to this account' }, status: :unauthorized
+    end
+  end
+
+  def authorized_for_choir
+    admin = logged_in_admin
+  
+    if !admin
+      render json: { message: 'Please log in' }, status: :unauthorized
+    elsif !choir_belongs_to_admin?(admin)
       render json: { message: 'You do not have admin access to this choir or this choir does not exist' }, status: :unauthorized
     end
   end
