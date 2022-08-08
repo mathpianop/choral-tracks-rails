@@ -1,5 +1,6 @@
 class Api::PartsController < ApplicationController
-  before_action :authorized_for_choir, except: [:index, :show]
+  before_action :authorized_for_part, only: [:update, :destroy]
+  before_action :authorized_for_song, only: :create
   
   def index
     @parts = Part.order(:pitch_order).where(song_id: part_params[:song_id])
@@ -58,7 +59,13 @@ class Api::PartsController < ApplicationController
 
   private
   def upload_recording(recording)
-    Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
+    
+    if !params[:recording]
+      p params[:recording]
+      render json: { message: "Recording missing" }, status: 400
+    else
+      Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
+    end
   end
 
   def delete_uploaded_recording(public_id)

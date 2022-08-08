@@ -1,5 +1,6 @@
 class Api::SongsController < ApplicationController
-  before_action :authorized_for_choir, except: [:show]
+  before_action :authorized_for_song, only: [:update, :destroy]
+  before_action :authorized_for_choir, only: [:create]
 
   
     # GET /song/:id
