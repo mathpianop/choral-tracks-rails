@@ -32,14 +32,24 @@ Represents the info and choirs associated with an admin account. Each admin can 
 Retrieves a single admin
 - Requires a JWT Auth Token obtained at "api/admins/login"
 
-`PATCH` / `PUT` "https://choral-tracks.herokuapp.com/api/admins"
+`PATCH` "https://choral-tracks.herokuapp.com/api/admins/**:admin_id**"
 
 Updates a single admin
 - Requires a JWT Auth Token obtained at "api/admins/login"
 
-Requires the following params:
+May include the following params:
 
 * username: `string`
+
+
+`GET` "https://choral-tracks.herokuapp.com/api/admins/login"
+
+Requests a JWT Auth Token for the admin with the supplied credentials
+
+Requires the following params
+
+* username: `string`
+* password: `string`
 
 
 ### Choir
@@ -133,13 +143,12 @@ Requires the following params:
 
 
 
-`PATCH` / `PUT` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
+`PATCH` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
 
 Updates the song with the given id (does not directly affect associated parts)
 
-Requires the following params:
+May include the following params:
 
-* "id" `integer` (The id of the song)
 * "choir_id" `integer` (The id of the choir associated with the song)
 * "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
 * "title" `string`
@@ -195,20 +204,18 @@ Creates a new part corresponding to the given song, uploading the audio file to 
 
 Requires the following params:
 
-* "song_id" `integer` (The id of the song associated with the part)
 * "name" `string` (The name of the part; e.g. Soprano)
 * "initial" `string` (The initial of the part, e.g. "S" for Soprano)
 * "pitch_order" `integer` (The pitch order of the part compared to other parts in the song, from high to low. For example, Alto might have a pitch order of 2)
 * "recording" `audio file` (The audio file recording of the part)
 
 
-`PATCH`/ `PUT` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts/**:part_id**"
+`PATCH` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**/parts/**:part_id**"
 
 Updates the given part corresponding to the given song, uploading a new audio file to Cloudinary if provided
 
-Requires the following params:
+May include the following params:
 
-* "song_id" `integer` (The id of the song associated with the part)
 * "name" `string` (The name of the part; e.g. Soprano)
 * "initial" `string` (The initial of the part, e.g. "S" for Soprano)
 * "pitch_order" `integer` (The pitch order of the part compared to other parts in the song, from high to low. For example, Alto might have a pitch order of 2)
