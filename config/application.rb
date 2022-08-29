@@ -35,6 +35,6 @@ module SongsApi
     config.api_only = true
 
     # Prevent rake assets:precompile from being run
-    config.assets.enabled = false
+    # config.assets.enabled = false
   end
 end
