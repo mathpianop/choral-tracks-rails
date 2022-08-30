@@ -104,6 +104,6 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.hosts << "choral-tracks-rails.up.railway.app"
-
+  p "Hello World"
   config.hosts.clear
 end
