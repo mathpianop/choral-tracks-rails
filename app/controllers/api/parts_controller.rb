@@ -15,9 +15,14 @@ class Api::PartsController < ApplicationController
   def create
     #Upload recording and add resulting info to params
     upload_result = upload_recording(params[:recording])
-    modified_params = add_result_to_params(upload_result, part_params)
+    modified_params = modify_params_with_result(upload_result, part_params)
+   
+    p upload_result
+    p "Hello"
+    p modified_params
     @part = Part.new(modified_params)
-
+    p @part
+    
     if @part.save
       render json: @part
     else
@@ -34,7 +39,7 @@ class Api::PartsController < ApplicationController
       #If the recording is being overriden, upload the file and replace
       #it with the new url
       upload_result = upload_recording(params[:recording])
-      modified_params = add_result_to_params(upload_result, update_params)
+      modified_params = modify_params_with_result(upload_result, update_params)
       #Delete the previous Cloudinary recording file
       delete_uploaded_recording(current_public_id)
     end
@@ -61,7 +66,6 @@ class Api::PartsController < ApplicationController
   def upload_recording(recording)
     
     if !params[:recording]
-      p params[:recording]
       render json: { message: "Recording missing" }, status: 400
     else
       Cloudinary::Uploader.upload(params[:recording], resource_type: :video)
@@ -72,14 +76,19 @@ class Api::PartsController < ApplicationController
     Cloudinary::Uploader.destroy(public_id, resource_type: :video)
   end
 
-  def add_result_to_params(upload_result, input_params)
-    input_params.merge({
-      recording: upload_result["secure_url"],
+  def modify_params_with_result(upload_result, input_params)
+    modified_params = input_params.merge({
+      recording_url: upload_result["secure_url"],
       public_id: upload_result["public_id"]
     })
+
+    # Get rid of "recording" param (used to upload recording 
+    # and obtain recording_url model attribute)
+    modified_params.delete(:recording)
+    return modified_params
   end
 
   def part_params
-    params.permit(:name, :initial, :recording, :song_id, :pitch_order, :id)
+    params.permit(:name, :initial, :song_id, :pitch_order, :id)
   end
 end

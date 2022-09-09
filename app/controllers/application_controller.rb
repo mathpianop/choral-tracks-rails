@@ -81,7 +81,7 @@ class ApplicationController < ActionController::API
       render json: { message: 'You do not have admin access to this choir or this choir does not exist' }, status: :unauthorized
     end
   end
-
+  
   def authorized_for_song
     admin = logged_in_admin
     if !admin
@@ -99,4 +99,6 @@ class ApplicationController < ActionController::API
       render json: { message: 'You do not have admin access to this part or this part does not exist' }, status: :unauthorized
     end
   end
+
+
 end
