@@ -16,12 +16,8 @@ class Api::PartsController < ApplicationController
     #Upload recording and add resulting info to params
     upload_result = upload_recording(params[:recording])
     modified_params = modify_params_with_result(upload_result, part_params)
-   
-    p upload_result
-    p "Hello"
-    p modified_params
+
     @part = Part.new(modified_params)
-    p @part
     
     if @part.save
       render json: @part
@@ -41,7 +37,7 @@ class Api::PartsController < ApplicationController
       upload_result = upload_recording(params[:recording])
       modified_params = modify_params_with_result(upload_result, update_params)
       #Delete the previous Cloudinary recording file
-      delete_uploaded_recording(current_public_id)
+      @part.delete_uploaded_recording(current_public_id)
     end
     
     if @part.update(update_params)
@@ -59,7 +55,7 @@ class Api::PartsController < ApplicationController
       render json: { message: "Unable to delete Part." }, status: 400
     end
     #Delete corresponding Cloudinary file
-    delete_uploaded_recording(@part.public_id)
+    @part.delete_uploaded_recording
   end
 
   private
@@ -72,9 +68,7 @@ class Api::PartsController < ApplicationController
     end
   end
 
-  def delete_uploaded_recording(public_id)
-    Cloudinary::Uploader.destroy(public_id, resource_type: :video)
-  end
+
 
   def modify_params_with_result(upload_result, input_params)
     modified_params = input_params.merge({
