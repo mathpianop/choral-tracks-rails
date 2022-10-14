@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :parts, except: [:new, :edit]
     end
     resources :choirs, only: [:show, :edit]
-    get "/admins/login", to: "admins#login"
+    post "/admins/login", to: "admins#login"
     resources :admins, except: [:new, :edit]
   end
 end
