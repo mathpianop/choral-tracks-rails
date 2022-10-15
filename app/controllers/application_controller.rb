@@ -74,7 +74,8 @@ class ApplicationController < ActionController::API
 
   def authorized_for_choir
     admin = logged_in_admin
-  
+    p choir_belongs_to_admin?(admin)
+    p params_choir_id
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !choir_belongs_to_admin?(admin)
