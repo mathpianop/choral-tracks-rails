@@ -25,6 +25,11 @@ class ApplicationController < ActionController::API
     if decoded_token
       admin_id = decoded_token[0]['admin_id']
       @admin = Admin.find_by(id: admin_id)
+      p decoded_token
+      p admin_id
+      p @admin
+
+      @admin
     end
   end
 
@@ -74,8 +79,6 @@ class ApplicationController < ActionController::API
 
   def authorized_for_choir
     admin = logged_in_admin
-    p choir_belongs_to_admin?(admin)
-    p params_choir_id
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !choir_belongs_to_admin?(admin)
