@@ -15,15 +15,14 @@ class ApplicationController < ActionController::API
       # header: { 'Authorization': 'Bearer <token>' }
       begin
         JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
-      rescue JWT::DecodeError
-        p "Couldn't decode"
+      rescue => error
+        p error
         nil
       end
     end
   end
 
   def logged_in_admin
-    p decoded_token
     if decoded_token
       admin_id = decoded_token[0]['admin_id']
       @admin = Admin.find_by(id: admin_id)
