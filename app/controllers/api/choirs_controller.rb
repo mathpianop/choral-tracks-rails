@@ -3,7 +3,7 @@ class Api::ChoirsController < ApplicationController
   def show
     # Filter out songs whose parts are not all uploaded
     @choir = Choir.find(params[:id])
-    @songs = Song.where('parts_count = parts_promised').where(choir_id: params[:id])
+    @songs = Song.where(choir_id: params[:id])
     render json: {songs: @songs, choir_details: @choir}
   end
 
