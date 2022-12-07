@@ -7,10 +7,10 @@ The database primarily exists to stores URLs for assets associated with the Song
 ## Table of Contents
 
 * [API reference](#api-reference)
-	- [Admin](#Admin)
-   - [Choir](#Choir)
-	- [Song](#Song)
-   - [Part](#Part)
+	- [Admin](#admin)
+   - [Choir](#choir)
+	- [Song](#song)
+   - [Part](#part)
 * [Installation and JWT setup](#installation-and-javaScript-web-tokens-setup)
 
 
@@ -82,14 +82,14 @@ Represents all the info and songs for a given choir
          "id" : 2,
          "parts_count" : 4,
          "title" : "Ascension Megalonarion",
-         "parts_promised" : 4,
+         "publish" : false,
          "created_at" : "2021-09-09T01:12:51.788Z"
       },
       {
          "title" : "It Is Truly Meet",
          "parts_count" : 3,
          "created_at" : "2021-09-09T01:12:51.805Z",
-         "parts_promised" : 3,
+         "publish" : true,
          "updated_at" : "2022-02-23T20:30:58.326Z",
          "id" : 3,
          "choir_id" : 1
@@ -120,7 +120,7 @@ Represents the info and number of parts of a given song
 * "choir_id" `integer` (The id of the choir associated with the song)
 * "id" `integer`
 * "parts_count" `integer` (The number of parts with uploaded recordings)
-* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "publish" `boolean` (Whether the not the song is marked to be displayed publicly)
 * "title" `string`
 
 
@@ -138,7 +138,7 @@ Creates a song (no parts)
 Requires the following params:
 
 * "choir_id" `integer` (The id of the choir associated with the song)
-* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "publish" `boolean` (Whether the not the song is marked to be displayed publicly)
 * "title" `string`
 
 
@@ -150,7 +150,7 @@ Updates the song with the given id (does not directly affect associated parts)
 May include the following params:
 
 * "choir_id" `integer` (The id of the choir associated with the song)
-* "parts_promised" `integer` (The number of parts that were attempted to be uploaded)
+* "publish" `boolean` (Whether the not the song is marked to be displayed publicly)
 * "title" `string`
 
 `DELETE` "https://choral-tracks.herokuapp.com/api/songs/**:song_id**"
