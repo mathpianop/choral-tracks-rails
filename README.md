@@ -112,6 +112,25 @@ Retrieves a single choir, with only the songs that have all the parts uploaded
 Retrieves a single choir, including those songs that do not have all their parts uploaded. 
 - Requires a JWT Auth Token obtained at "api/admins/login"
 
+`POST` "https://choral-tracks.herokuapp.com/api/choirs"
+
+Creates a the choir (no songs)
+
+Requires the following params:
+
+* "name" `string` (The name of the choir)
+* "message" `text` (Message/description of the choir)
+
+
+`PATCH` "https://choral-tracks.herokuapp.com/api/choirs/**:choir_id**"
+
+Updates the choir with the given id (does not directly affect associated songs)
+
+May include the following params:
+
+* "name" `string` (The name of the choir)
+* "message" `text` (Message/description of the choir)
+
 
 ### Song
 

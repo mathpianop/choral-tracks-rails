@@ -14,8 +14,26 @@ class Api::ChoirsController < ApplicationController
   end
 
   def create
+    @choir = Choir.new(choir_params)
+    if @choir.save
+      render json: @choir
+    else
+      render error: { error: "Rats! Choir could not be created" }, status: 400
+    end
   end
 
   def update
+    @choir = Choir.find(params[:id])
+    if @choir.update(choir_params)
+      render json: @choir
+    else
+      render error: { error: "Rats! Choir could not be updated" }, status: 400
+    end
+  end
+
+  private
+
+  def choir_params
+    params.permit(:name, :message)
   end
 end
