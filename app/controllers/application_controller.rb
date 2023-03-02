@@ -32,6 +32,10 @@ class ApplicationController < ActionController::API
     !!logged_in_admin
   end
 
+  def params_admin_id
+    params[:admin_id] || params[:id]
+  end
+
   def params_choir_id
     params[:choir_id] || params[:id]
   end
@@ -45,7 +49,7 @@ class ApplicationController < ActionController::API
   end
 
   def record_belongs_to_admin?(admin)
-    admin.id == params[:id].to_i
+    admin.id == params_admin_id.to_i
   end
 
   def song_belongs_to_admin?(admin)
@@ -53,7 +57,7 @@ class ApplicationController < ActionController::API
   end
 
   def part_belongs_to_admin?(admin)
-    admin.parts.exists?(id: params[:id])
+    admin.parts.exists?(id: params_admin_id)
   end
   
 
@@ -65,6 +69,7 @@ class ApplicationController < ActionController::API
 
   def authorized_for_admin
     admin = logged_in_admin
+    p "Hey", record_belongs_to_admin?(admin)
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !record_belongs_to_admin?(admin)
@@ -83,6 +88,7 @@ class ApplicationController < ActionController::API
   
   def authorized_for_song
     admin = logged_in_admin
+ 
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !song_belongs_to_admin?(admin)

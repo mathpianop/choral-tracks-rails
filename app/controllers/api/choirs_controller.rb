@@ -1,5 +1,6 @@
 class Api::ChoirsController < ApplicationController
-  before_action :authorized_for_choir, except: [:show]
+  before_action :authorized_for_choir, except: [:show, :create]
+  before_action :authorized_for_admin, only: [:show, :create]
   def show
     # Filter out songs whose parts are not all uploaded
     @choir = Choir.find(params[:id])
@@ -31,9 +32,19 @@ class Api::ChoirsController < ApplicationController
     end
   end
 
+  def destroy
+    @choir = Choir.includes(:songs).find(params[:id])
+    if @choir.destroy
+      render json: { message: "Choir succesfully deleted." }, status: 200
+    else
+      render json: { message: "Unable to delete Choir." }, status: 400
+    end
+  end
+
+
   private
 
   def choir_params
-    params.permit(:name, :message)
+    params.permit(:name, :message, :admin_id)
   end
 end
