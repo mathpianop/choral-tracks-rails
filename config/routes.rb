@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :songs, except: [:index, :new, :edit] do 
       resources :parts, except: [:new, :edit]
     end
-    resources :choirs, only: [:new]
+    resources :choirs, except: [:new]
     post "/admins/login", to: "admins#login"
     resources :admins, except: [:new, :edit]
   end

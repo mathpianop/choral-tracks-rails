@@ -1,6 +1,6 @@
 class Api::ChoirsController < ApplicationController
   before_action :authorized_for_choir, except: [:show, :create]
-  before_action :authorized_for_admin, only: [:show, :create]
+  before_action :authorized_for_admin, only: [:create]
   def show
     # Filter out songs whose parts are not all uploaded
     @choir = Choir.find(params[:id])

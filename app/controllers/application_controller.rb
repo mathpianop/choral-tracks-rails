@@ -69,7 +69,6 @@ class ApplicationController < ActionController::API
 
   def authorized_for_admin
     admin = logged_in_admin
-    p "Hey", record_belongs_to_admin?(admin)
     if !admin
       render json: { message: 'Please log in' }, status: :unauthorized
     elsif !record_belongs_to_admin?(admin)
