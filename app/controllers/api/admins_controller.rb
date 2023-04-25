@@ -1,13 +1,22 @@
 class Api::AdminsController < ApplicationController
-  before_action :authorized_for_admin, except: [:login]
+  before_action :authorized_for_admin, except: [:login, :create]
   # LOGGING IN
   def login
-    @admin = Admin.find_by(username: params[:username])
-    if @admin && @admin.authenticate(params[:password])
+    @admin = Admin.find_by(email: params[:email])
+    if @admin && @admin.authenticate(params[:email])
       token = encode_token({admin_id: @admin.id})
       render json: {admin: @admin, token: token, status: 200}
     else
-      render json: {error: "Invalid username or password", status: 401}
+      render json: {error: "Invalid email or password", status: 401}
+    end
+  end
+
+  def create
+    @admin = Admin.new(admin_params)
+    if @admin.save
+      render json: @admin
+    else
+      render error: { error: "Unable to create Admin." }, status: 400
     end
   end
 
@@ -34,10 +43,8 @@ class Api::AdminsController < ApplicationController
   private
 
   def admin_params
-    params.permit(:name)
+    params.permit(:name, :email, :password)
   end
-
-
 
 end
 
