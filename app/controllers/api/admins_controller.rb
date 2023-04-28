@@ -14,7 +14,8 @@ class Api::AdminsController < ApplicationController
   def create
     @admin = Admin.new(admin_params)
     if @admin.save
-      render json: @admin
+      token = encode_token({admin_id: @admin.id})
+      render json: {admin: @admin, token: token, status: 200}
     else
       render error: { error: "Unable to create Admin." }, status: 400
     end

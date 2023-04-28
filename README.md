@@ -21,7 +21,9 @@ The database primarily exists to stores URLs for assets associated with the Song
 Represents the info and choirs associated with an admin account. Each admin can administrate multiple choirs
 
 * admin_details: `object`
-   * username: `string`
+   * email: `string`
+   * password: `string`
+   * name: `string`
 
 * choirs: [Choir](#choir) `array`
 
@@ -32,6 +34,20 @@ Represents the info and choirs associated with an admin account. Each admin can 
 Retrieves a single admin
 - Requires a JWT Auth Token obtained at "api/admins/login"
 
+`POST` "https://choral-tracks.herokuapp.com/api/admins"
+
+Creates a new admin
+- Requires a JWT Auth Token obtained at "api/admins/login"
+
+Must include the following params:
+
+* email: `string`
+* name: `string`
+* password: `string`
+
+Returns the following object: {admin: `object`, token: `token`},
+where the token is the login token obtained at "api/admins/login".
+
 `PATCH` "https://choral-tracks.herokuapp.com/api/admins/**:admin_id**"
 
 Updates a single admin
@@ -39,7 +55,8 @@ Updates a single admin
 
 May include the following params:
 
-* username: `string`
+* email: `string`
+* name: `string`
 
 
 `GET` "https://choral-tracks.herokuapp.com/api/admins/login"
@@ -48,7 +65,7 @@ Requests a JWT Auth Token for the admin with the supplied credentials
 
 Requires the following params
 
-* username: `string`
+* email: `string`
 * password: `string`
 
 
