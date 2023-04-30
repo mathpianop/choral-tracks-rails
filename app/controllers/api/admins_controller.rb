@@ -17,7 +17,7 @@ class Api::AdminsController < ApplicationController
       token = encode_token({admin_id: @admin.id})
       render json: {admin: @admin, token: token, status: 200}
     else
-      render error: { error: "Unable to create Admin." }, status: 400
+      render json: { error: format(@admin.errors.first)}, status: 400
     end
   end
 
@@ -37,7 +37,7 @@ class Api::AdminsController < ApplicationController
     if @admin.update(admin_params)
       render json: @admin
     else
-      render error: { error: "Unable to update Admin." }, status: 400
+      render json: { error: "Unable to create Admin."}, status: 400
     end
   end
 
@@ -45,6 +45,10 @@ class Api::AdminsController < ApplicationController
 
   def admin_params
     params.permit(:name, :email, :password)
+  end
+
+  def format(error)
+    "#{@admin.errors.first[0].to_s} #{@admin.errors.first[1]}".upcase_first
   end
 
 end
