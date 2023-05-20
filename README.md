@@ -20,7 +20,7 @@ The database primarily exists to stores URLs for assets associated with the Song
 
 Represents the info and choirs associated with an admin account. Each admin can administrate multiple choirs
 
-* admin_details: `object`
+* admin: `object`
    * email: `string`
    * password: `string`
    * name: `string`
@@ -67,6 +67,8 @@ Requires the following params
 
 * email: `string`
 * password: `string`
+
+Returns the following object: {admin: `object`, token: `token`}
 
 
 ### Choir
