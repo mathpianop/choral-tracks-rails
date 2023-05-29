@@ -19,7 +19,7 @@ class Api::ChoirsController < ApplicationController
     if @choir.save
       render json: @choir
     else
-      render error: { error: "Rats! Choir could not be created" }, status: 400
+      render json: { error: "Rats! Choir could not be created" }, status: 400
     end
   end
 
@@ -28,7 +28,7 @@ class Api::ChoirsController < ApplicationController
     if @choir.update(choir_params)
       render json: @choir
     else
-      render error: { error: "Rats! Choir could not be updated" }, status: 400
+      render json: { error: "Rats! Choir could not be updated" }, status: 400
     end
   end
 
