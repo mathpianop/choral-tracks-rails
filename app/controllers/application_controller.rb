@@ -104,5 +104,9 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def format(error)
+    "#{error[0].to_s} #{error[1]}".upcase_first
+  end
+
 
 end

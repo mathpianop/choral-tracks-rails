@@ -50,7 +50,7 @@ class Api::AdminsController < ApplicationController
   end
 
   def format(error)
-    "#{@admin.errors.first[0].to_s} #{@admin.errors.first[1]}".upcase_first
+    "#{error[0].to_s} #{error[1]}".upcase_first
   end
 
 end
